@@ -1,0 +1,13 @@
+{
+	"name": "Bun",
+	"image": "ghcr.io/nhaef/devcontainer-bun:1.0.14",
+	"customizations": {
+		"vscode": {
+			"extensions": ["esbenp.prettier-vscode", "oven.bun-vscode"],
+			"settings": {
+				"editor.defaultFormatter": "esbenp.prettier-vscode",
+				"editor.formatOnSave": true
+			}
+		}
+	}
+}

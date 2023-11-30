@@ -1,0 +1,20 @@
+{
+  "name": "advent-of-code-2023",
+  "module": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.3.0"
+  },
+  "devDependencies": {
+    "@inquirer/prompts": "^3.3.0",
+    "bun-types": "^1.0.14",
+    "prettier": "^3.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "days": "bun run ./days",
+    "create": "bun run ./days/create"
+  }
+}
