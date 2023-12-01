@@ -18,26 +18,34 @@ const spelledOutDigits: Map<string, string> = new Map([
 	['nine', '9'],
 ]);
 
+export function matchDigits(
+	calibration: string,
+	withSpelledOutDigits: boolean
+) {
+	const matcher = new RegExp(
+		`(?=(\\d${
+			withSpelledOutDigits ? '|' + [...spelledOutDigits.keys()].join('|') : ''
+		}))`,
+		'g'
+	);
+
+	return Array.from(
+		calibration.matchAll(matcher),
+		([, match]) => spelledOutDigits.get(match) || match
+	);
+}
+
 export function getCalibrationValues(
 	calibrations: string[],
 	withSpelledOutDigits: boolean
 ) {
-	const digitsMatcher = withSpelledOutDigits
-		? new RegExp(`(?=(\\d|${[...spelledOutDigits.keys()].join('|')}))`, 'g')
-		: /(?=(\d))/g;
-
 	return calibrations.map((calibration) => {
-		const digits = Array.from(
-			[...calibration.matchAll(digitsMatcher)],
-			(match) => match[1]
-		);
+		const {
+			length,
+			0: firstDigit,
+			[length - 1]: lastDigit,
+		} = matchDigits(calibration, withSpelledOutDigits);
 
-		if (!digits.length) return 0;
-
-		const firstDigit = spelledOutDigits.get(digits.at(0)!) || digits.at(0)!;
-
-		const lastDigit = spelledOutDigits.get(digits.at(-1)!) || digits.at(-1)!;
-
-		return +(firstDigit + lastDigit);
+		return length ? +(firstDigit + lastDigit) : 0;
 	});
 }
