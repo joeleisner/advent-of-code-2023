@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import {
 	getInput,
-	getMinimumCubeSetPowers,
-	getPossibleGameIDs,
+	getSumOfMinimumCubeSetPower,
 	getCubeSet,
+	getSumOfPossibleGameIDs,
 } from './mod';
 
 describe('Day 2: Cube Conundrum', async () => {
@@ -104,12 +104,12 @@ describe('Day 2: Cube Conundrum', async () => {
 	const games = await getInput('./input_test.txt');
 
 	test('Get possible game IDs', () => {
-		expect(getPossibleGameIDs({ red: 12, green: 13, blue: 14 }, games)).toEqual(
-			[1, 2, 5]
-		);
+		expect(
+			getSumOfPossibleGameIDs({ red: 12, green: 13, blue: 14 }, games)
+		).toEqual(8);
 	});
 
 	test('Get minimum cube set powers', () => {
-		expect(getMinimumCubeSetPowers(games)).toEqual([48, 12, 1560, 630, 36]);
+		expect(getSumOfMinimumCubeSetPower(games)).toEqual(2286);
 	});
 });

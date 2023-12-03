@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { getCalibrationValues, getInput, matchDigits } from './mod';
+import { getSumOfCalibrationValues, getInput, matchDigits } from './mod';
 
 describe('Day 1: Trebuchet?!', async () => {
 	test('Get input', async () => {
@@ -29,11 +29,7 @@ describe('Day 1: Trebuchet?!', async () => {
 	const secondCalibrations = await getInput('./input_test.2.txt');
 
 	test('Get calibration values', () => {
-		expect(getCalibrationValues(firstCalibrations, false)).toEqual([
-			12, 38, 15, 77,
-		]);
-		expect(getCalibrationValues(secondCalibrations, true)).toEqual([
-			29, 83, 13, 24, 42, 14, 76,
-		]);
+		expect(getSumOfCalibrationValues(firstCalibrations, false)).toEqual(142);
+		expect(getSumOfCalibrationValues(secondCalibrations, true)).toEqual(281);
 	});
 });
