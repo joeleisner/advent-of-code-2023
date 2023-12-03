@@ -29,7 +29,7 @@ describe('Day 1: Trebuchet?!', async () => {
 	const secondCalibrations = await getInput('./input_test.2.txt');
 
 	test('Get calibration values', () => {
-		expect(getSumOfCalibrationValues(firstCalibrations, false)).toEqual(142);
-		expect(getSumOfCalibrationValues(secondCalibrations, true)).toEqual(281);
+		expect(getSumOfCalibrationValues(firstCalibrations, false)).toBe(142);
+		expect(getSumOfCalibrationValues(secondCalibrations, true)).toBe(281);
 	});
 });

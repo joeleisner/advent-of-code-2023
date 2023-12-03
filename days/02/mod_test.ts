@@ -110,6 +110,6 @@ describe('Day 2: Cube Conundrum', async () => {
 	});
 
 	test('Get minimum cube set powers', () => {
-		expect(getSumOfMinimumCubeSetPower(games)).toEqual(2286);
+		expect(getSumOfMinimumCubeSetPower(games)).toBe(2286);
 	});
 });
