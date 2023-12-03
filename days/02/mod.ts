@@ -30,11 +30,11 @@ export async function getInput(path: string) {
 	});
 }
 
-export function getPossibleGameIDs(
+export function getSumOfPossibleGameIDs(
 	{ red: maxRed, green: maxGreen, blue: maxBlue }: CubeSet,
 	games: CubeSet[][]
 ) {
-	const ids: number[] = [];
+	let sum = 0;
 
 	for (const [index, sets] of games.entries()) {
 		const possible = sets.every(
@@ -44,14 +44,14 @@ export function getPossibleGameIDs(
 
 		if (!possible) continue;
 
-		ids.push(index + 1);
+		sum += index + 1;
 	}
 
-	return ids;
+	return sum;
 }
 
-export function getMinimumCubeSetPowers(games: CubeSet[][]) {
-	const powers: number[] = [];
+export function getSumOfMinimumCubeSetPower(games: CubeSet[][]) {
+	let sum = 0;
 
 	for (const sets of games) {
 		const minSet: CubeSet = {
@@ -66,8 +66,8 @@ export function getMinimumCubeSetPowers(games: CubeSet[][]) {
 			if (blue > minSet.blue) minSet.blue = blue;
 		}
 
-		powers.push(multiplyAll(Object.values(minSet)));
+		sum += multiplyAll(Object.values(minSet));
 	}
 
-	return powers;
+	return sum;
 }

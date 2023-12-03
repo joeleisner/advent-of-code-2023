@@ -1,9 +1,12 @@
-import { sumAll } from '../../lib/math';
-import { getInput, getMinimumCubeSetPowers, getPossibleGameIDs } from './mod';
+import {
+	getInput,
+	getSumOfMinimumCubeSetPower,
+	getSumOfPossibleGameIDs,
+} from './mod';
 
 const games = await getInput('./input.txt');
 
-const possibleGameIds = getPossibleGameIDs(
+const sumOfPossibleGameIds = getSumOfPossibleGameIDs(
 	{
 		red: 12,
 		green: 13,
@@ -12,12 +15,12 @@ const possibleGameIds = getPossibleGameIDs(
 	games
 );
 
-console.log('Sum of possible game IDs:', sumAll(possibleGameIds), '(Part 1)');
+console.log('Sum of possible game IDs:', sumOfPossibleGameIds, '(Part 1)');
 
-const minimumCubeSetPowers = getMinimumCubeSetPowers(games);
+const sumOfMinimumCubeSetPowers = getSumOfMinimumCubeSetPower(games);
 
 console.log(
 	'Sum of minimum cub set powers:',
-	sumAll(minimumCubeSetPowers),
+	sumOfMinimumCubeSetPowers,
 	'(Part 2)'
 );

@@ -1,3 +1,5 @@
+import { sum } from '../../lib/math';
+
 export async function getInput(path: string) {
 	const file = Bun.file(new URL(path, import.meta.url));
 
@@ -35,17 +37,19 @@ export function matchDigits(
 	);
 }
 
-export function getCalibrationValues(
+export function getSumOfCalibrationValues(
 	calibrations: string[],
 	withSpelledOutDigits: boolean
 ) {
-	return calibrations.map((calibration) => {
-		const {
-			length,
-			0: firstDigit,
-			[length - 1]: lastDigit,
-		} = matchDigits(calibration, withSpelledOutDigits);
+	return calibrations
+		.map((calibration) => {
+			const {
+				length,
+				0: firstDigit,
+				[length - 1]: lastDigit,
+			} = matchDigits(calibration, withSpelledOutDigits);
 
-		return length ? +(firstDigit + lastDigit) : 0;
-	});
+			return length ? +(firstDigit + lastDigit) : 0;
+		})
+		.reduce(sum);
 }
