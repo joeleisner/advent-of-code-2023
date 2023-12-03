@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test';
 import {
 	divide,
 	divideAll,
+	inRange,
 	multiply,
 	multiplyAll,
 	subtract,
@@ -41,5 +42,11 @@ describe('Math library', () => {
 
 	test('Divide an array of numbers', () => {
 		expect(divideAll([6, 3, 2])).toBe(1);
+	});
+
+	test('Number is within a range', () => {
+		expect(inRange(4, [3, 5])).toBe(true);
+		expect(inRange(2, [3, 5])).toBe(false);
+		expect(inRange(2, [3, 5], 1)).toBe(true);
 	});
 });

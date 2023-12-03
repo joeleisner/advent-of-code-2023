@@ -1,8 +1,5 @@
+import { isAdjacent, Line, Point } from '../../lib/grid';
 import { multiplyAll } from '../../lib/math';
-
-type Point = [x: number, y: number];
-
-type Line = [start: Point, end: Point];
 
 type Parts = Map<number, Line[]>;
 
@@ -48,12 +45,10 @@ export function getSumOfPartNumbers([parts, symbols]: Schematic) {
 	const symbolPoints = [...symbols.values()].flat();
 
 	for (const [number, instances] of parts.entries()) {
-		for (const [[x1, y], [x2]] of instances) {
-			const isPartNumber = symbolPoints.some(([xs, ys]) => {
-				const xRange = xs >= x1 - 1 && xs <= x2 + 1;
-				const yRange = ys >= y - 1 && ys <= y + 1;
-				return xRange && yRange;
-			});
+		for (const line of instances) {
+			const isPartNumber = symbolPoints.some((point) =>
+				isAdjacent(point, line)
+			);
 
 			if (!isPartNumber) continue;
 
@@ -71,14 +66,12 @@ export function getSumOfGearRatios([parts, symbols]: Schematic) {
 
 	const partEntries = [...parts.entries()];
 
-	for (const [xg, yg] of gears) {
+	for (const gear of gears) {
 		const adjacentParts: number[] = [];
 
 		for (const [number, instances] of partEntries) {
-			for (const [[x1, y], [x2]] of instances) {
-				const xRange = xg >= x1 - 1 && xg <= x2 + 1;
-				const yRange = yg >= y - 1 && yg <= y + 1;
-				if (xRange && yRange) adjacentParts.push(number);
+			for (const line of instances) {
+				if (isAdjacent(gear, line)) adjacentParts.push(number);
 			}
 		}
 
