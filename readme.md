@@ -1,6 +1,6 @@
-# Advent of Code with Typescript x Bun by Joel Eisner
+# Advent of Code with TypeScript x Bun by Joel Eisner
 
-Joel Eisner's completed Typescript x Bun code challenges for "Advent of Code" 2023.
+Joel Eisner's completed TypeScript x Bun code challenges for "Advent of Code" 2023.
 
 ## Installation
 
