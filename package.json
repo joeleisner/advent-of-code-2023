@@ -14,7 +14,7 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "days": "bun run ./days",
-    "create": "bun run ./days/create"
+    "days": "bun run ./scripts/days.ts",
+    "create": "bun run ./scripts/create.ts"
   }
 }

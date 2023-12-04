@@ -5,7 +5,7 @@ import { join } from 'node:path';
 async function getDays(numbers?: Set<string>) {
 	const days: string[] = [];
 
-	const files = await readdir(new URL('./', import.meta.url), {
+	const files = await readdir(new URL('../days', import.meta.url), {
 		withFileTypes: true,
 	});
 
@@ -32,7 +32,7 @@ const days = await getDays(
 
 async function getDayTitle(directory: string) {
 	const file = Bun.file(
-		new URL(join('.', directory, 'readme.md'), import.meta.url)
+		new URL(join('../days', directory, 'readme.md'), import.meta.url)
 	);
 
 	const text = await file.text();
@@ -47,7 +47,7 @@ async function runDay(directory: string) {
 
 	console.log(chalk.green(day + ':'), chalk.cyan(title));
 
-	await import(new URL(join('.', directory), import.meta.url).toString());
+	await import(new URL(join('../days', directory), import.meta.url).toString());
 }
 
 if (!days.length) console.log(chalk.red('No days found'));

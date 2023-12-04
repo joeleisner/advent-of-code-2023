@@ -11,7 +11,9 @@ const numberAnswer = await input({
 	message: 'Day number:',
 	validate(input) {
 		if (!input || isNaN(+input)) return 'Specify a number';
-		if (Bun.file(new URL(join('..', padNumber(input)), import.meta.url)).size)
+		if (
+			Bun.file(new URL(join('../days', padNumber(input)), import.meta.url)).size
+		)
 			return 'Day already exists';
 		return true;
 	},
@@ -43,8 +45,7 @@ type File = {
 
 const files: File[] = [
 	{
-		src: 'day.ts',
-		dest: 'index.ts',
+		src: 'index.ts',
 	},
 	{
 		src: 'input_test.txt',
@@ -74,11 +75,11 @@ function replaceTokens(string: string) {
 }
 
 function srcPath(fileName: string) {
-	return new URL(join('.', fileName), import.meta.url);
+	return new URL(join('./create', fileName), import.meta.url);
 }
 
 function destPath(fileName: string) {
-	return new URL(join('..', paddedNumber, fileName), import.meta.url);
+	return new URL(join('../days', paddedNumber, fileName), import.meta.url);
 }
 
 async function createDay() {
