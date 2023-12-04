@@ -1,7 +1,6 @@
 import { input } from '@inquirer/prompts';
 import { join } from 'node:path';
 import { mkdir } from 'node:fs/promises';
-import chalk from 'chalk';
 
 function padNumber(number: string) {
 	return number.length === 1 ? '0' + number : number;
@@ -38,31 +37,29 @@ const title = await input({
 });
 
 type File = {
-	src: string;
-	dest?: string;
+	name: string;
 	tokens?: boolean;
 };
 
 const files: File[] = [
 	{
-		src: 'index.ts',
+		name: 'index.ts',
 	},
 	{
-		src: 'input_test.txt',
+		name: 'input_test.txt',
 	},
 	{
-		src: 'input.txt',
+		name: 'input.txt',
 	},
 	{
-		src: 'mod-test.ts',
-		dest: 'mod_test.ts',
+		name: 'mod_test.ts',
 		tokens: true,
 	},
 	{
-		src: 'mod.ts',
+		name: 'mod.ts',
 	},
 	{
-		src: 'readme.md',
+		name: 'readme.md',
 		tokens: true,
 	},
 ];
@@ -86,17 +83,17 @@ async function createDay() {
 	// Create the day directory
 	await mkdir(destPath(''));
 
-	for (const { src, dest, tokens } of files) {
-		const file = Bun.file(srcPath(src));
+	for (const { name, tokens } of files) {
+		const file = Bun.file(srcPath(name));
 
 		if (!tokens) {
-			await Bun.write(destPath(dest || src), file);
+			await Bun.write(destPath(name), file);
 			continue;
 		}
 
 		const text = await file.text();
 
-		await Bun.write(destPath(dest || src), replaceTokens(text));
+		await Bun.write(destPath(name), replaceTokens(text));
 	}
 }
 
