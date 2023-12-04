@@ -25,19 +25,29 @@ Or use [Visual Studio Code Dev Containers](https://code.visualstudio.com/docs/de
 
 ## Operation
 
+### Run
+
 ```bash
 # Run all completed code challenges
 bun run days
 
 # Run a set of completed code challenges
 bun run days 1 2 3
+bun run days 01 02 03
 
 # Run a specific completed code challenge
 bun run days 1
+bun run days 01
 bun run days 2
+bun run days 02
 bun run days 3
+bun run days 03
 # ...
+```
 
+### Test
+
+```bash
 # Test all completed code challenges
 bun test days
 
@@ -52,4 +62,24 @@ bun test lib
 
 # Test all code
 bun test
+```
+
+### Benchmark
+
+```bash
+# Benchmark all completed code challenges
+bun run bench
+
+# Benchmark a set of completed code challenge
+bun run bench 1 2 3
+bun run bench 01 02 03
+
+# Benchmark a specific completed code challenge
+bun run bench 1
+bun run bench 01
+bun run bench 2
+bun run bench 02
+bun run bench 3
+bun run bench 03
+# ...
 ```

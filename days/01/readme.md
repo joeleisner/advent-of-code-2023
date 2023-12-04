@@ -7,4 +7,8 @@ bun run days 01
 
 # Test the code challenge
 bun test days/01
+
+# Benchmark the code challenge
+bun run bench 1
+bun run bench 01
 ```
