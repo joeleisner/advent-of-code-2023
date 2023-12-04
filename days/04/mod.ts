@@ -16,15 +16,17 @@ export async function getInput(path: string) {
 	}) as Card[];
 }
 
+export function getWinningNumberAmount([winningNumbers, yourNumbers]: Card) {
+	return yourNumbers.filter((number) => winningNumbers.includes(number)).length;
+}
+
 export function getPoints(cards: Card[]) {
 	let points = 0;
 
-	for (const [winningNumbers, yourNumbers] of cards) {
-		const overlap = yourNumbers.filter((number) =>
-			winningNumbers.includes(number)
-		);
+	for (const card of cards) {
+		const winners = getWinningNumberAmount(card);
 
-		points += Math.floor(2 ** (overlap.length - 1));
+		points += Math.floor(2 ** (winners - 1));
 	}
 
 	return points;
@@ -33,10 +35,8 @@ export function getPoints(cards: Card[]) {
 export function getTotalScratchcards(cards: Card[]) {
 	let total = new Array(cards.length).fill(1);
 
-	for (const [index, [winningNumbers, yourNumbers]] of cards.entries()) {
-		let winners = yourNumbers.filter((number) =>
-			winningNumbers.includes(number)
-		).length;
+	for (const [index, card] of cards.entries()) {
+		let winners = getWinningNumberAmount(card);
 
 		while (winners) {
 			total[index + winners--] += total[index];
