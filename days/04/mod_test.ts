@@ -1,5 +1,10 @@
 import { describe, expect, test } from 'bun:test';
-import { getInput, getPoints, getTotalScratchcards } from './mod';
+import {
+	getInput,
+	getPoints,
+	getTotalScratchcards,
+	getWinningNumberAmount,
+} from './mod';
 
 describe('Day 4: Scratchcards', async () => {
 	test('Get input', async () => {
@@ -32,6 +37,10 @@ describe('Day 4: Scratchcards', async () => {
 	});
 
 	const cards = await getInput('./input_test.txt');
+
+	test('Get winning numbers', () => {
+		expect(cards.map(getWinningNumberAmount)).toEqual([4, 2, 2, 1, 0, 0]);
+	});
 
 	test('Get points', () => {
 		expect(getPoints(cards)).toBe(13);
