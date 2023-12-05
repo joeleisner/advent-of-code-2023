@@ -43,6 +43,10 @@ type File = {
 
 const files: File[] = [
 	{
+		name: 'bench.ts',
+		tokens: true,
+	},
+	{
 		name: 'index.ts',
 	},
 	{

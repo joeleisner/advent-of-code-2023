@@ -5,3 +5,11 @@ export async function getInput(path: string) {
 
 	return text;
 }
+
+export function partOne(input: Awaited<ReturnType<typeof getInput>>) {
+	return input;
+}
+
+export function partTwo(input: Awaited<ReturnType<typeof getInput>>) {
+	return input;
+}
