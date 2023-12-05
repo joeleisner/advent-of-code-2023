@@ -1,39 +1,10 @@
 import chalk from 'chalk';
-import { readdir } from 'node:fs/promises';
-import { join } from 'node:path';
+import { createDaysPath, getDaysFromArgs } from './lib';
 
-async function getDays(numbers?: Set<string>) {
-	const days: string[] = [];
-
-	const files = await readdir(new URL('../days', import.meta.url), {
-		withFileTypes: true,
-	});
-
-	for (const file of files) {
-		if (file.isDirectory() && file.name !== 'create') days.push(file.name);
-	}
-
-	days.sort();
-
-	if (!numbers) return days;
-
-	const filtered = days.filter((day) => numbers.has(day));
-
-	return filtered.length ? filtered : days;
-}
-
-const days = await getDays(
-	new Set(
-		Bun.argv
-			.slice(2)
-			.map((number) => (number.length === 1 ? `0${number}` : number))
-	)
-);
+const days = await getDaysFromArgs();
 
 async function getDayTitle(directory: string) {
-	const file = Bun.file(
-		new URL(join('../days', directory, 'readme.md'), import.meta.url)
-	);
+	const file = Bun.file(createDaysPath(directory, 'readme.md'));
 
 	const text = await file.text();
 
@@ -47,7 +18,7 @@ async function runDay(directory: string) {
 
 	console.log(chalk.green(day + ':'), chalk.cyan(title));
 
-	await import(new URL(join('../days', directory), import.meta.url).toString());
+	await import(createDaysPath(directory).toString());
 }
 
 if (!days.length) console.log(chalk.red('No days found'));

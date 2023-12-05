@@ -1,28 +1,17 @@
 import { input } from '@inquirer/prompts';
 import { join } from 'node:path';
 import { mkdir } from 'node:fs/promises';
-
-function padNumber(number: string) {
-	return number.length === 1 ? '0' + number : number;
-}
+import { createDaysPath, padNumber, unpadNumber } from './lib';
 
 const numberAnswer = await input({
 	message: 'Day number:',
 	validate(input) {
 		if (!input || isNaN(+input)) return 'Specify a number';
-		if (
-			Bun.file(new URL(join('../days', padNumber(input)), import.meta.url)).size
-		)
+		if (Bun.file(createDaysPath(padNumber(input))).size)
 			return 'Day already exists';
 		return true;
 	},
 });
-
-function unpadNumber(number: string) {
-	return number.length === 2 && number.charAt(0) === '0'
-		? number.slice(1)
-		: number;
-}
 
 const number = unpadNumber(numberAnswer);
 
@@ -79,13 +68,13 @@ function srcPath(fileName: string) {
 	return new URL(join('./create', fileName), import.meta.url);
 }
 
-function destPath(fileName: string) {
-	return new URL(join('../days', paddedNumber, fileName), import.meta.url);
+function destPath(fileName = '') {
+	return createDaysPath(paddedNumber, fileName);
 }
 
 async function createDay() {
 	// Create the day directory
-	await mkdir(destPath(''));
+	await mkdir(destPath());
 
 	for (const { name, tokens } of files) {
 		const file = Bun.file(srcPath(name));
