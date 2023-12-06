@@ -1,17 +1,17 @@
 import { bench, group } from 'mitata';
 import {
 	getInput,
-	getMultipliedWaysToWinRaces,
-	getMultipliedWaysToWinRace,
+	getMultipliedWinsOfRaces,
+	getWinsOfRace,
+	getWins,
 } from './mod';
 
 const races = await getInput('./input.txt');
 
 group({ name: '6: Wait For It', summary: false }, () => {
-	bench('Get multiplied ways to win races', () =>
-		getMultipliedWaysToWinRaces(races)
-	);
-	bench('Get multiplied ways to win race', () =>
-		getMultipliedWaysToWinRace(races)
-	);
+	bench('Get wins', () => {
+		races.map(getWins);
+	});
+	bench('Get multiplied wins of races', () => getMultipliedWinsOfRaces(races));
+	bench('Get wins of race', () => getWinsOfRace(races));
 });

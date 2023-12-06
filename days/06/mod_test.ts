@@ -1,8 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 import {
 	getInput,
-	getMultipliedWaysToWinRaces,
-	getMultipliedWaysToWinRace,
+	getMultipliedWinsOfRaces,
+	getWinsOfRace,
+	getWins,
 } from './mod';
 
 describe('Day 6: Wait For It', async () => {
@@ -14,13 +15,17 @@ describe('Day 6: Wait For It', async () => {
 		]);
 	});
 
-	const input = await getInput('./input_test.txt');
+	const races = await getInput('./input_test.txt');
 
-	test('Get multiplied ways to win races', () => {
-		expect(getMultipliedWaysToWinRaces(input)).toBe(288);
+	test('Get wins', () => {
+		expect(races.map(getWins)).toEqual([4, 8, 9]);
 	});
 
-	test('Get multiplied wasy to win race', () => {
-		expect(getMultipliedWaysToWinRace(input)).toBe(71503);
+	test('Get multiplied wins of races', () => {
+		expect(getMultipliedWinsOfRaces(races)).toBe(288);
+	});
+
+	test('Get wins of race', () => {
+		expect(getWinsOfRace(races)).toBe(71503);
 	});
 });
