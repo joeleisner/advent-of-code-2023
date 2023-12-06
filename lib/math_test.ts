@@ -5,6 +5,7 @@ import {
 	inRange,
 	multiply,
 	multiplyAll,
+	quadratic,
 	subtract,
 	subtractAll,
 	sum,
@@ -48,5 +49,11 @@ describe('Math library', () => {
 		expect(inRange(4, [3, 5])).toBe(true);
 		expect(inRange(2, [3, 5])).toBe(false);
 		expect(inRange(2, [3, 5], 1)).toBe(true);
+	});
+
+	test('Quadratic formula', () => {
+		expect(quadratic(1, 5, -14)).toEqual([2, -7]);
+		expect(quadratic(1, 4, -21)).toEqual([3, -7]);
+		expect(quadratic(3, -1, -2)).toEqual([1, -2 / 3]);
 	});
 });

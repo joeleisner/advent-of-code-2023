@@ -1,23 +1,15 @@
-import {
-	getInput,
-	getMultipliedWaysToWinRaces,
-	getMultipliedWaysToWinRace,
-} from './mod';
+import { getInput, getMultipliedWinsOfRaces, getWinsOfRace } from './mod';
 
 const input = await getInput('./input.txt');
 
-const multipliedWaysToWinRaces = getMultipliedWaysToWinRaces(input);
+const multipliedWaysToWinRaces = getMultipliedWinsOfRaces(input);
 
 console.log(
-	'Get multiplied ways to win races:',
+	'Get multiplied wins of races:',
 	multipliedWaysToWinRaces,
 	'(Part 1)'
 );
 
-const multipliedWaysToWinRace = getMultipliedWaysToWinRace(input);
+const multipliedWaysToWinRace = getWinsOfRace(input);
 
-console.log(
-	'Get multiplied ways to win race:',
-	multipliedWaysToWinRace,
-	'(Part 2)'
-);
+console.log('Get wins of race:', multipliedWaysToWinRace, '(Part 2)');

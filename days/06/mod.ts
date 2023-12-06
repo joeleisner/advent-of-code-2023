@@ -1,4 +1,4 @@
-import { multiplyAll } from '../../lib/math';
+import { multiplyAll, quadratic } from '../../lib/math';
 
 type Race = [time: number, distance: number];
 
@@ -18,30 +18,20 @@ export async function getInput(path: string) {
 	return races;
 }
 
-export function getMultipliedWaysToWinRaces(races: Race[]) {
-	const waysToWin: number[] = [];
+export function getWins([time, distance]: Race) {
+	const [r1, r2] = quadratic(1, time, distance + 1);
 
-	for (const [time, distanceToBeat] of races) {
-		const buttonHolds: Race[] = [];
-		let buttonHold = time - 1;
+	const low = Math.ceil(Math.min(r1, r2));
+	const high = Math.floor(Math.max(r1, r2));
 
-		while (buttonHold) {
-			const remainingTime = time - buttonHold;
-			const distanceTraveled = remainingTime * buttonHold;
-
-			if (distanceTraveled > distanceToBeat)
-				buttonHolds.push([buttonHold, distanceTraveled]);
-
-			buttonHold--;
-		}
-
-		waysToWin.push(buttonHolds.length);
-	}
-
-	return multiplyAll(waysToWin);
+	return high - low + 1;
 }
 
-export function getMultipliedWaysToWinRace(races: Race[]) {
+export function getMultipliedWinsOfRaces(races: Race[]) {
+	return multiplyAll(races.map(getWins));
+}
+
+export function getWinsOfRace(races: Race[]) {
 	const race: Race = [0, 0];
 
 	for (const [time, distance] of races) {
@@ -49,5 +39,5 @@ export function getMultipliedWaysToWinRace(races: Race[]) {
 		race[1] = Number(String(race[1]) + String(distance));
 	}
 
-	return getMultipliedWaysToWinRaces([race]);
+	return getWins(race);
 }
