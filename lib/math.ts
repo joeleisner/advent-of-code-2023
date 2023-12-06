@@ -37,3 +37,12 @@ export function inRange(
 ) {
 	return (value - (min - offset)) * (value - (max + offset)) <= 0;
 }
+
+export function quadratic(a: number, b: number, c: number) {
+	const discriminant = Math.sqrt(b ** 2 - 4 * a * c);
+
+	return [(-b + discriminant) / (2 * a), (-b - discriminant) / (2 * a)] as [
+		root: number,
+		root: number,
+	];
+}
