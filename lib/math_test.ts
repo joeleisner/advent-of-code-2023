@@ -2,7 +2,9 @@ import { describe, expect, test } from 'bun:test';
 import {
 	divide,
 	divideAll,
+	gcd,
 	inRange,
+	lcm,
 	multiply,
 	multiplyAll,
 	quadratic,
@@ -55,5 +57,15 @@ describe('Math library', () => {
 		expect(quadratic(1, 5, -14)).toEqual([2, -7]);
 		expect(quadratic(1, 4, -21)).toEqual([3, -7]);
 		expect(quadratic(3, -1, -2)).toEqual([1, -2 / 3]);
+	});
+
+	test('Greatest common denominator', () => {
+		expect(gcd(12, 9, 6)).toBe(3);
+		expect(gcd(1920, 1080)).toBe(120);
+	});
+
+	test('Least common multiple', () => {
+		expect(lcm(12, 15, 75)).toBe(300);
+		expect(lcm(6, 7)).toBe(42);
 	});
 });

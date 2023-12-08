@@ -46,3 +46,15 @@ export function quadratic(a: number, b: number, c: number) {
 		root: number,
 	];
 }
+
+export function gcd(...numbers: number[]): number {
+	if (numbers.length !== 2) return numbers.reduce((a, b) => gcd(a, b));
+	const [a, b] = numbers.map(Math.abs);
+	if (!b) return a;
+	return gcd(b, a % b);
+}
+
+export function lcm(...numbers: number[]): number {
+	if (numbers.length !== 2) return numbers.reduce((a, b) => lcm(a, b));
+	return Math.abs(multiplyAll(numbers)) / gcd(...numbers);
+}
