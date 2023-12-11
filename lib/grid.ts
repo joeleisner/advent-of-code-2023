@@ -11,3 +11,7 @@ export function isAdjacent(
 ) {
 	return inRange(x, [x1, x2], offset) && inRange(y, [y1, y2], offset);
 }
+
+export function taxicab([x1, y1]: Point, [x2, y2]: Point) {
+	return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+}
