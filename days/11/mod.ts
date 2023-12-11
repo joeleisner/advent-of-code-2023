@@ -7,7 +7,7 @@ export async function getInput(path: string) {
 
 	const text = await file.text();
 
-	return text.split('\n').map((row) => row.split('') as ('.' | '#')[]);
+	return text.split('\n').map((row) => row.split('')) as Grid;
 }
 
 export type Galaxies = Set<string>;
