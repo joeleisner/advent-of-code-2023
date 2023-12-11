@@ -34,38 +34,34 @@ describe('Day 10: Pipe Maze', async () => {
 	const secondTiles = await getInput('./input_test.2.txt');
 
 	test('Get loop', () => {
-		expect(getLoop(firstTiles)).toEqual(
-			new Set([
-				'[1,1]',
-				'[1,2]',
-				'[1,3]',
-				'[2,3]',
-				'[3,3]',
-				'[3,2]',
-				'[3,1]',
-				'[2,1]',
-			])
-		);
-		expect(getLoop(secondTiles)).toEqual(
-			new Set([
-				'[0,2]',
-				'[0,3]',
-				'[0,4]',
-				'[1,4]',
-				'[1,3]',
-				'[2,3]',
-				'[3,3]',
-				'[4,3]',
-				'[4,2]',
-				'[3,2]',
-				'[3,1]',
-				'[3,0]',
-				'[2,0]',
-				'[2,1]',
-				'[1,1]',
-				'[1,2]',
-			])
-		);
+		expect([...getLoop(firstTiles)]).toEqual([
+			[1, 1],
+			[1, 2],
+			[1, 3],
+			[2, 3],
+			[3, 3],
+			[3, 2],
+			[3, 1],
+			[2, 1],
+		]);
+		expect([...getLoop(secondTiles)]).toEqual([
+			[0, 2],
+			[0, 3],
+			[0, 4],
+			[1, 4],
+			[1, 3],
+			[2, 3],
+			[3, 3],
+			[4, 3],
+			[4, 2],
+			[3, 2],
+			[3, 1],
+			[3, 0],
+			[2, 0],
+			[2, 1],
+			[1, 1],
+			[1, 2],
+		]);
 	});
 
 	test('Get steps to furthest point on loop', () => {

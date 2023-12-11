@@ -1,4 +1,4 @@
-import type { Point } from '../../lib/grid';
+import { Points, type Point } from '../../lib/grid';
 
 export type Pipe = '|' | '-' | 'L' | 'J' | '7' | 'F';
 
@@ -56,29 +56,23 @@ export async function getInput(path: string) {
 	return [start, grid as Grid<'.' | Pipe>] as Tiles;
 }
 
-export type UniquePoints = Set<string>;
-
 export function getLoop([[x, y], grid]: Tiles) {
-	const loop: UniquePoints = new Set();
+	const loop = new Points();
 
 	while (true) {
 		const tile = grid[y][x];
 
 		if (tile === '.') break;
 
-		loop.add(JSON.stringify([x, y]));
+		loop.add([x, y]);
 
-		const goNorth =
-			['|', 'L', 'J'].includes(tile) && !loop.has(JSON.stringify([x, y - 1]));
+		const goNorth = ['|', 'L', 'J'].includes(tile) && !loop.has([x, y - 1]);
 
-		const goSouth =
-			['|', '7', 'F'].includes(tile) && !loop.has(JSON.stringify([x, y + 1]));
+		const goSouth = ['|', '7', 'F'].includes(tile) && !loop.has([x, y + 1]);
 
-		const goEast =
-			['-', 'L', 'F'].includes(tile) && !loop.has(JSON.stringify([x + 1, y]));
+		const goEast = ['-', 'L', 'F'].includes(tile) && !loop.has([x + 1, y]);
 
-		const goWest =
-			['-', '7', 'J'].includes(tile) && !loop.has(JSON.stringify([x - 1, y]));
+		const goWest = ['-', '7', 'J'].includes(tile) && !loop.has([x - 1, y]);
 
 		if (goNorth) {
 			y--;
@@ -116,12 +110,12 @@ export function getAmountOfEnclosedTiles([start, grid]: Tiles) {
 	// Convert non-loop tiles to ground
 	for (const [y, row] of grid.entries()) {
 		for (const x of row.keys()) {
-			if (loop.has(JSON.stringify([x, y]))) continue;
+			if (loop.has([x, y])) continue;
 			grid[y][x] = '.';
 		}
 	}
 
-	const outside: UniquePoints = new Set();
+	const outside = new Points();
 
 	// Horizontal search
 	for (const [y, row] of grid.entries()) {
@@ -138,9 +132,9 @@ export function getAmountOfEnclosedTiles([start, grid]: Tiles) {
 				up = false;
 			}
 
-			if (!within) outside.add(JSON.stringify([x, y]));
+			if (!within) outside.add([x, y]);
 		}
 	}
 
-	return grid.length * grid[0].length - new Set([...outside, ...loop]).size;
+	return grid.length * grid[0].length - new Points([...outside, ...loop]).size;
 }

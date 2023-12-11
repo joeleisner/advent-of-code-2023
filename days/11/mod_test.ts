@@ -26,19 +26,17 @@ describe('Day 11: Cosmic Expansion', async () => {
 	const grid = await getInput('./input_test.txt');
 
 	test('Get galaxies', () => {
-		expect(getGalaxies(grid, 2)).toEqual(
-			new Set([
-				'[4,0]',
-				'[9,1]',
-				'[0,2]',
-				'[8,5]',
-				'[1,6]',
-				'[12,7]',
-				'[9,10]',
-				'[0,11]',
-				'[5,11]',
-			])
-		);
+		expect([...getGalaxies(grid, 2)]).toEqual([
+			[4, 0],
+			[9, 1],
+			[0, 2],
+			[8, 5],
+			[1, 6],
+			[12, 7],
+			[9, 10],
+			[0, 11],
+			[5, 11],
+		]);
 	});
 
 	const galaxiesExpandedByTwo = getGalaxies(grid, 2);
