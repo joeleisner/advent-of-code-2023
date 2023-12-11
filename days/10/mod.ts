@@ -1,4 +1,4 @@
-export type Point = [x: number, y: number];
+import type { Point } from '../../lib/grid';
 
 export type Pipe = '|' | '-' | 'L' | 'J' | '7' | 'F';
 

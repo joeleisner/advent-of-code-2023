@@ -1,3 +1,5 @@
+import { taxicab } from '../../lib/grid';
+
 export type Grid = ('.' | '#')[][];
 
 export async function getInput(path: string) {
@@ -5,7 +7,7 @@ export async function getInput(path: string) {
 
 	const text = await file.text();
 
-	return text.split('\n').map((row) => row.split('') as ('.' | '#')[]);
+	return text.split('\n').map((row) => row.split('')) as Grid;
 }
 
 export type Galaxies = Set<string>;
@@ -37,15 +39,6 @@ export function getGalaxies(grid: Grid, offset: number) {
 	return galaxies;
 }
 
-export type Point = [x: number, y: number];
-
-export function getShortestPath(start: string, end: string) {
-	const [x1, y1] = JSON.parse(start) as Point;
-	const [x2, y2] = JSON.parse(end) as Point;
-
-	return Math.abs(x1 - x2) + Math.abs(y1 - y2);
-}
-
 export function getSumOfShortestPaths(galaxies: Galaxies | string[]) {
 	galaxies = [...galaxies];
 
@@ -53,7 +46,7 @@ export function getSumOfShortestPaths(galaxies: Galaxies | string[]) {
 
 	for (const [index, start] of galaxies.entries()) {
 		for (const end of galaxies.slice(index + 1)) {
-			sum += getShortestPath(start, end);
+			sum += taxicab(JSON.parse(start), JSON.parse(end));
 		}
 	}
 
