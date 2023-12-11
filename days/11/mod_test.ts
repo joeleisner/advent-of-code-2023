@@ -2,7 +2,6 @@ import { describe, expect, test } from 'bun:test';
 import {
 	getGalaxies,
 	getInput,
-	getShortestPath,
 	getSumOfShortestPaths,
 	getSumOfShortestPathsExpandedByTwo,
 	getSumOfShortestPathsExpandedByOneMillion,
@@ -40,10 +39,6 @@ describe('Day 11: Cosmic Expansion', async () => {
 				'[5,11]',
 			])
 		);
-	});
-
-	test('Get shortest path', () => {
-		expect(getShortestPath('[1,6]', '[5,11]')).toBe(9);
 	});
 
 	const galaxiesExpandedByTwo = getGalaxies(grid, 2);
