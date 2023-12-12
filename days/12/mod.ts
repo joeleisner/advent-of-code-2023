@@ -58,7 +58,8 @@ export function arrangements([conditions, groups]: Record): number {
 	return result;
 }
 
-export function getSumOfArrangements(records: Record[]) {
+export function getSumOfArrangements(records: Record[], clearCache = false) {
+	if (clearCache) cache.clear();
 	return records.map(arrangements).reduce(sum);
 }
 
@@ -75,6 +76,10 @@ export function unfold([conditions, groups]: Record) {
 	return [conditions, groups] as Record;
 }
 
-export function getSumOfUnfoldedArrangements(records: Record[]) {
+export function getSumOfUnfoldedArrangements(
+	records: Record[],
+	clearCache = false
+) {
+	if (clearCache) cache.clear();
 	return records.map(unfold).map(arrangements).reduce(sum);
 }
