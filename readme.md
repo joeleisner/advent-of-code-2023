@@ -11,6 +11,10 @@ bun install --production
 bun run days
 ```
 
+### Zero configuration
+
+Use [GitHub Codespaces](https://docs.github.com/en/codespaces) in your browser or [Visual Studio Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) leveraging Docker to get up and running with zero configuration.
+
 ### Requirements
 
 - [Bun@1.0.14](https://bun.sh/docs)
@@ -21,7 +25,19 @@ bun run days
 - [Bun for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=oven.bun-vscode)
 - [Prettier Formatter for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-Or use [Visual Studio Code Dev Containers](https://code.visualstudio.com/docs/devcontainers/containers) to get up and running with zero configuration.
+## Structure
+
+Each day can be found under the `days` directory and is roughly structured identically to other days in the project. Here are files to look out for:
+
+1. `bench.ts` - **Where the logic is benchmarked.** This script is called when running `bun run bench <number>`.
+2. `index.ts` - **Where the logic is ran.** This script is ran when running `bun run days <number>`.
+3. `input_test.txt` or `input_test.*.txt` - Example inputs usually pulled directly from the AoC website and used while testing.
+4. `input.txt` - The actual, personalized input from the AoC website.
+5. `mod_test.ts` - **Where the logic is tested.** This script is called when running `bun test days/<number>`.
+6. `mod.ts` - **Where the logic lives.** This usually includes 2 functions for each part of the code challenge, along with other functions and helpers.
+7. `readme.md` - Day-specific instructions on how to run, test, and benchmark the code.
+
+Shared code can be found under the `lib` directory, which includes useful utilities for grids, math, and matrices. The `scripts` directory contains the code for creating, running, and benchmarking any day in the project.
 
 ## Operation
 
