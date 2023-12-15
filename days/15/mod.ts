@@ -13,8 +13,8 @@ export function hash(string: string) {
 
 	for (const char of string) {
 		value += char.charCodeAt(0);
-		value = value * 17;
-		value = value % 256;
+		value *= 17;
+		value %= 256;
 	}
 
 	return value;
@@ -28,7 +28,7 @@ export type Instruction = [box: number, label: string, focalLength?: number];
 
 export function getInstructions(sequence: string[]) {
 	return sequence.map((instruction) => {
-		if (instruction.charAt(instruction.length - 1) === '-') {
+		if (instruction.at(-1) === '-') {
 			const label = instruction.slice(0, -1);
 			const box = hash(label);
 			return [box, label] as Instruction;
@@ -41,24 +41,21 @@ export function getInstructions(sequence: string[]) {
 	});
 }
 
+export type LensSlots = Map<string, number>;
+
 export function getBoxes(instructions: Instruction[]) {
-	const boxes = Array.from({ length: 256 }, () => new Map<string, number>());
+	const boxes = Array.from({ length: 256 }, () => new Map() as LensSlots);
 
 	for (const [box, label, focalLength] of instructions) {
-		if (!focalLength) {
-			if (!boxes[box].has(label)) continue;
-
-			boxes[box].delete(label);
-			continue;
-		}
-
-		boxes[box].set(label, focalLength);
+		!focalLength
+			? boxes[box].delete(label)
+			: boxes[box].set(label, focalLength);
 	}
 
 	return boxes;
 }
 
-export function getFocusingPower(map: Map<string, number>, boxIndex: number) {
+export function getFocusingPower(map: LensSlots, boxIndex: number) {
 	if (!map.size) return 0;
 
 	return [...map.values()]
