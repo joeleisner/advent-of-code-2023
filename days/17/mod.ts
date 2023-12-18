@@ -1,4 +1,6 @@
-import { Point, Points } from '../../lib/grid';
+import { equals } from '../../lib/array';
+import { PriorityQueue, PriorityQueueComparator } from '../../lib/structure';
+import { ShiftTuple, TupleSet } from '../../lib/tuple';
 
 export type Grid = number[][];
 
@@ -10,91 +12,90 @@ export async function getInput(path: string) {
 	return text.split('\n').map((line) => line.split('').map(Number)) as Grid;
 }
 
-// export const directions: Point[] = [
-// 	[-1, 0],
-// 	[0, -1],
-// 	[1, 0],
-// 	[0, 1],
-// ];
-
-// export function getPossibleDirections(
-// 	[x, y]: Point,
-// 	[dx, dy]: Point,
-// 	visited: Points,
-// 	grid: Grid
-// ) {
-// 	return directions
-// 		.filter(([pdx, pdy]) => pdx - dx && pdy - dy) // Not backwards
-// 		.filter(([pdx, pdy]) => grid[pdy + y][pdx + x]) // Within the grid
-// 		.filter(([pdx, pdy]) => !visited.has([pdx + x, pdy + y])); // Hasn't been visited
-// }
-
-export type Queued = [
+export type QueuedPath = [
 	heatLoss: number,
 	row: number,
-	column: number,
+	col: number,
 	deltaRow: number,
-	deltaColumn: number,
+	deltaCol: number,
 	steps: number,
 ];
 
+export const compareQueuedPaths: PriorityQueueComparator<QueuedPath> = (
+	[heatLossA],
+	[heatLossB]
+) => heatLossB - heatLossA;
+
+export type NavigatedPath = ShiftTuple<QueuedPath>;
+
+export const deltas = [
+	[0, 1],
+	[1, 0],
+	[0, -1],
+	[-1, 0],
+];
+
 export function getMinimalHeatLoss(grid: Grid, withUltraCrucibles: boolean) {
-	const queue: Queued[] = [[0, 0, 0, 0, 0, 0]];
+	const queue = new PriorityQueue(compareQueuedPaths, [[0, 0, 0, 0, 0, 0]]);
 
-	const seen = new Set<string>();
+	const seen = new TupleSet<NavigatedPath>();
 
-	while (queue.length) {
-		const [hl, r, c, dr, dc, n] = queue
-			.sort(([prevCost], [nextCost]) => nextCost - prevCost)
-			.pop()!;
+	while (queue.size) {
+		const [heatLoss, row, col, rowDelta, colDelta, steps] = queue.pop()!;
 
 		if (
-			r === grid.length - 1 &&
-			c === grid[0].length - 1 &&
-			(withUltraCrucibles ? n >= 4 : true)
+			row === grid.length - 1 &&
+			col === grid[0].length - 1 &&
+			(withUltraCrucibles ? steps >= 4 : true)
 		)
-			return hl;
+			return heatLoss;
 
-		const key = JSON.stringify([r, c, dr, dc, n]);
+		const key = [row, col, rowDelta, colDelta, steps] as NavigatedPath;
 
 		if (seen.has(key)) continue;
 
 		seen.add(key);
 
-		if (
-			n < (withUltraCrucibles ? 10 : 3) &&
-			![dr, dc].every((coord) => coord === 0)
-		) {
-			const nr = r + dr;
-			const nc = c + dc;
+		const queuePath = (rowDelta: number, colDelta: number, steps: number) => {
+			const newRow = row + rowDelta;
+			const newCol = col + colDelta;
 
-			if (0 <= nr && nr < grid.length && 0 <= nc && nc < grid[0].length) {
-				queue.push([hl + grid[nr][nc], nr, nc, dr, dc, n + 1]);
-			}
-		}
+			if (
+				newRow < 0 ||
+				newRow >= grid.length ||
+				newCol < 0 ||
+				newCol >= grid[0].length
+			)
+				return;
+
+			queue.push([
+				heatLoss + grid[newRow][newCol],
+				newRow,
+				newCol,
+				rowDelta,
+				colDelta,
+				steps,
+			]);
+		};
+
+		if (
+			steps < (withUltraCrucibles ? 10 : 3) &&
+			!equals([rowDelta, colDelta], [0, 0])
+		)
+			queuePath(rowDelta, colDelta, steps + 1);
 
 		if (
 			withUltraCrucibles
-				? n >= 4 || [dr, dc].every((coord) => coord === 0)
+				? steps >= 4 || equals([rowDelta, colDelta], [0, 0])
 				: true
 		) {
-			for (const [ndr, ndc] of [
-				[0, 1],
-				[1, 0],
-				[0, -1],
-				[-1, 0],
-			]) {
+			for (const [newRowDelta, newColDelta] of deltas) {
 				if (
-					JSON.stringify([ndr, ndc]) !== JSON.stringify([dr, dc]) &&
-					JSON.stringify([ndr, ndc]) !== JSON.stringify([-dr, -dc])
-				) {
-					const nr = r + ndr;
-					const nc = c + ndc;
-
-					if (0 <= nr && nr < grid.length && 0 <= nc && nc < grid[0].length) {
-						queue.push([hl + grid[nr][nc], nr, nc, ndr, ndc, 1]);
-					}
-				}
+					equals([newRowDelta, newColDelta], [rowDelta, colDelta]) ||
+					equals([newRowDelta, newColDelta], [-rowDelta, -colDelta])
+				)
+					continue;
+				queuePath(newRowDelta, newColDelta, 1);
 			}
 		}
 	}
