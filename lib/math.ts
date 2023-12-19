@@ -30,11 +30,9 @@ export function divideAll(numbers: number[]) {
 	return numbers.reduce(divide);
 }
 
-export function inRange(
-	value: number,
-	[min, max]: [min: number, max: number],
-	offset = 0
-) {
+export type Range<TMin = number, TMax = number> = [min: TMin, max: TMax];
+
+export function inRange(value: number, [min, max]: Range, offset = 0) {
 	return (value - (min - offset)) * (value - (max + offset)) <= 0;
 }
 
