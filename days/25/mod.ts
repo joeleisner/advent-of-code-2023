@@ -21,13 +21,17 @@ export async function getInput(path: string) {
 }
 
 export function getProductOfGroupSizes(connections: TupleSet<Connection>) {
-	for (const [from, to] of mincut([...connections])) {
+	let connectionArray = [...connections];
+
+	for (const [from, to] of mincut(connectionArray)) {
 		connections.delete([from, to]);
 		connections.delete([to, from]);
 	}
 
+	connectionArray = [...connections];
+
 	const groups: string[][] = [];
-	const components = new Set<string>([...connections].flat());
+	const components = new Set<string>(connectionArray.flat());
 	const visited = new Set<string>();
 
 	for (const component of components) {
@@ -45,8 +49,8 @@ export function getProductOfGroupSizes(connections: TupleSet<Connection>) {
 
 			group.push(component);
 
-			const links = [...connections]
-				.filter(([from, to]) => from === component || to === component)
+			const links = connectionArray
+				.filter((connection) => connection.includes(component))
 				.flat();
 
 			queue.push(...links);
