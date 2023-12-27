@@ -7,7 +7,7 @@ export function createDaysPath(...pathParts: string[]) {
 	return new URL(join(relativePathToDays, ...pathParts), import.meta.url);
 }
 
-export async function getDays(numbers?: Set<string>) {
+export async function getDays(include?: Set<string>, exclude?: Set<string>) {
 	const days: string[] = [];
 
 	const files = await readdir(createDaysPath(), {
@@ -20,9 +20,11 @@ export async function getDays(numbers?: Set<string>) {
 
 	days.sort();
 
-	if (!numbers?.size) return days;
+	if (!include?.size && !exclude?.size) return days;
 
-	return days.filter((day) => numbers.has(day));
+	return days.filter(
+		(day) => (include?.size ? include?.has(day) : true) && !exclude?.has(day)
+	);
 }
 
 export function padNumber(number: string) {
@@ -36,5 +38,17 @@ export function unpadNumber(number: string) {
 }
 
 export async function getDaysFromArgs() {
-	return await getDays(new Set(Bun.argv.slice(2).map(padNumber)));
+	const args = Bun.argv.slice(2);
+
+	const include = new Set(
+		args.filter((arg) => !arg.includes('!')).map(padNumber)
+	);
+
+	const exclude = new Set(
+		args
+			.filter((arg) => arg.includes('!'))
+			.map((arg) => padNumber(arg.replace('!', '')))
+	);
+
+	return await getDays(include, exclude);
 }

@@ -47,6 +47,9 @@ Shared code can be found under the `lib` directory, which includes useful utilit
 # Run all completed code challenges
 bun run days
 
+# Run all but some completed code challenges
+bun run days 1! 2! 3!
+
 # Run a set of completed code challenges
 bun run days 1 2 3
 bun run days 01 02 03
@@ -85,6 +88,9 @@ bun test
 ```bash
 # Benchmark all completed code challenges
 bun run bench
+
+# Benchmark all but some completed code challenges
+bun run bench 1! 2! 3!
 
 # Benchmark a set of completed code challenge
 bun run bench 1 2 3
